@@ -20,21 +20,23 @@ codes.forEach((input, index) => {
 
     e.preventDefault();
 
-    // First input
-    if (index === 0) {
-      input.value = '';
-      input.focus();
-      return;
-    }
-
-    // Current input has a value
+    // 1. Current input has a digit:
+    // Clear it and stay focused here.
     if (input.value !== '') {
       input.value = '';
       input.focus();
       return;
     }
 
-    // Current input is empty, move to previous
+    // 3. First input is empty:
+    // Keep focus on the first input.
+    if (index === 0) {
+      input.focus();
+      return;
+    }
+
+    // 2. Current input is empty and isn't first:
+    // Clear previous input and move focus there.
     codes[index - 1].value = '';
     codes[index - 1].focus();
 
