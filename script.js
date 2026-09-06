@@ -14,32 +14,24 @@ codes.forEach((input, index) => {
   });
 
   // Backspace behavior
-   input.addEventListener('keydown', (e) => {
+ input.addEventListener('keydown', (e) => {
 
-    if (e.key !== 'Backspace') {
-      return;
-    }
+    if (e.key === 'Backspace') {
+      e.preventDefault();
 
-    e.preventDefault();
-
-    // Current field has a value:
-    // delete it and stay here
-    if (input.value !== '') {
+      // Delete current field
       input.value = '';
-      return;
+
+      // Move focus to previous field
+      if (index > 0) {
+        codes[index - 1].focus();
+      } else {
+        // Already at first field
+        codes[0].focus();
+      }
     }
 
-    // Current field is empty:
-    // go to previous field and delete it
-    if (index > 0) {
-      codes[index - 1].value = '';
-      codes[index - 1].focus();
-      return;
-    }
-
-    // First field is already empty:
-    // stay on first field
-    codes[0].focus();
   });
+ 
 
 });
