@@ -13,23 +13,21 @@ codes.forEach((currentInput, index) => {
       codes[index + 1].focus();
     }
   });
-currentInput.addEventListener('keydown', (e) => {
+ currentInput.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace') {
-      // SCENARIO 1: The current field is completely empty
+      // CASE 1: If the field is currently empty, JUST move focus back (don't clear it)
       if (currentInput.value === '') {
         if (index > 0) {
-          codes[index - 1].value = ''; // Clear the previous field's value
-          codes[index - 1].focus();    // Move focus to the previous field
+          e.preventDefault();        // Prevent double-deletion side-effects
+          codes[index - 1].focus();    // Simply shift focus to the previous box
         }
       } 
-      // SCENARIO 2: The current field has a value in it
+      // CASE 2: If the field has a character, empty it first and then jump focus back
       else {
-        // We let the native backspace clear the current box,
-        // but we use setTimeout to immediately shift focus backward right after
+        e.preventDefault();          // Override native browser deletion behavior
+        currentInput.value = '';     // Clear the value of the current field
         if (index > 0) {
-          setTimeout(() => {
-            codes[index - 1].focus();
-          }, 0);
+          codes[index - 1].focus();  // Shift focus to the previous box
         }
       }
     }
