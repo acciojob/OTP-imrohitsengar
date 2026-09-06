@@ -13,24 +13,27 @@ codes.forEach((currentInput, index) => {
       codes[index + 1].focus();
     }
   });
-
-  // B. Moving BACKWARD & CLEARING (Triggers strictly on Backspace)
-  currentInput.addEventListener('keydown', (e) => {
+currentInput.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace') {
-      // Scenario 1: The current field has a character
-      if (currentInput.value !== '') {
-        e.preventDefault();          // Stop native backspace handling
-        currentInput.value = '';     // Manually clear the current field
-      } 
-      // Scenario 2: The current field is already empty
-      else if (currentInput.value === '') {
+      // SCENARIO 1: The current field is completely empty
+      if (currentInput.value === '') {
         if (index > 0) {
-          e.preventDefault();        // Stop native backspace handling
-          codes[index - 1].value = ''; // Forcefully clear the previous field's value
-          codes[index - 1].focus();    // Correctly shift focus to that previous field
+          codes[index - 1].value = ''; // Clear the previous field's value
+          codes[index - 1].focus();    // Move focus to the previous field
+        }
+      } 
+      // SCENARIO 2: The current field has a value in it
+      else {
+        // We let the native backspace clear the current box,
+        // but we use setTimeout to immediately shift focus backward right after
+        if (index > 0) {
+          setTimeout(() => {
+            codes[index - 1].focus();
+          }, 0);
         }
       }
     }
   });
+  
 });
 
