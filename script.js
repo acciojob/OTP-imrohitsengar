@@ -13,25 +13,31 @@ codes.forEach((input, index) => {
     }
   });
 
-  // Backspace behavior
- input.addEventListener('keydown', (e) => {
+input.addEventListener('keydown', (e) => {
+    if (e.key !== 'Backspace') return;
 
-    if (e.key === 'Backspace') {
-      e.preventDefault();
+    e.preventDefault();
 
-      // Delete current field
+    if (input.value !== '') {
+      // Current field has a digit:
+      // delete it and move to previous
       input.value = '';
 
-      // Move focus to previous field
       if (index > 0) {
         codes[index - 1].focus();
-      } else {
-        // Already at first field
-        codes[0].focus();
       }
+    } 
+    else if (index > 0) {
+      // Current field is empty:
+      // delete the previous field's digit
+      codes[index - 1].value = '';
+      codes[index - 1].focus();
     }
-
+    else {
+      // First field is empty
+      input.focus();
+    }
   });
- 
 
+ 
 });
