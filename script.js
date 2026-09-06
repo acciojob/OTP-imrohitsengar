@@ -7,7 +7,6 @@ codes.forEach((input, index) => {
 
   // Move forward after entering a digit
   input.addEventListener('input', () => {
-    input.value = input.value.replace(/[^0-9]/g, '');
 
     if (input.value.length === 1 && index < codes.length - 1) {
       codes[index + 1].focus();
@@ -15,24 +14,32 @@ codes.forEach((input, index) => {
   });
 
   // Backspace behavior
-  input.addEventListener('keydown', (e) => {
+   input.addEventListener('keydown', (e) => {
 
-    if (e.key === 'Backspace') {
-      e.preventDefault();
-
-      // Always delete the current field first
-      input.value = '';
-
-      // Then move focus to previous field if it exists
-      if (index > 0) {
-        codes[index - 1].focus();
-      } else {
-        // If we're already at the first field,
-        // keep focus on the first field
-        codes[0].focus();
-      }
+    if (e.key !== 'Backspace') {
+      return;
     }
 
+    e.preventDefault();
+
+    // Current field has a value:
+    // delete it and stay here
+    if (input.value !== '') {
+      input.value = '';
+      return;
+    }
+
+    // Current field is empty:
+    // go to previous field and delete it
+    if (index > 0) {
+      codes[index - 1].value = '';
+      codes[index - 1].focus();
+      return;
+    }
+
+    // First field is already empty:
+    // stay on first field
+    codes[0].focus();
   });
 
 });
