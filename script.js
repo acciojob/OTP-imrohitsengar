@@ -5,8 +5,6 @@ const codes = document.querySelectorAll('.code');
 if (codes.length > 0) {
   codes[0].focus();
 }
-
-// 3. Loop through each input box using forEach
 codes.forEach((currentInput, index) => {
   
   // A. Moving FORWARD (Triggers when a valid digit is entered)
@@ -19,14 +17,20 @@ codes.forEach((currentInput, index) => {
   // B. Moving BACKWARD & CLEARING (Triggers strictly on Backspace)
   currentInput.addEventListener('keydown', (e) => {
     if (e.key === 'Backspace') {
-      // If the field is currently empty, jump back and clear the previous input's value
-      if (currentInput.value === '') {
-        if (index > 0) {
-          codes[index - 1].value = ''; // Instantly clears the previous field's value
-          codes[index - 1].focus();    // Correctly shifts focus to the previous field
-        }
+      // Scenario 1: The current field has a character
+      if (currentInput.value !== '') {
+        e.preventDefault();          // Stop native backspace handling
+        currentInput.value = '';     // Manually clear the current field
       } 
-      // If the field is NOT empty, let native backspace handle clearing this field first
+      // Scenario 2: The current field is already empty
+      else if (currentInput.value === '') {
+        if (index > 0) {
+          e.preventDefault();        // Stop native backspace handling
+          codes[index - 1].value = ''; // Forcefully clear the previous field's value
+          codes[index - 1].focus();    // Correctly shift focus to that previous field
+        }
+      }
     }
   });
 });
+
