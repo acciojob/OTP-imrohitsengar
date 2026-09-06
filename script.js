@@ -12,7 +12,6 @@ codes.forEach((input, index) => {
       codes[index + 1].focus();
     }
   });
-
  input.addEventListener('keydown', (e) => {
 
     if (e.key !== 'Backspace') {
@@ -21,25 +20,26 @@ codes.forEach((input, index) => {
 
     e.preventDefault();
 
-    // Current input contains a digit
-    if (input.value !== '') {
-      input.value = '';
-      return;
-    }
-
-    // Current input is empty AND this is the first input
+    // First input
     if (index === 0) {
+      input.value = '';
       input.focus();
       return;
     }
 
-    // Current input is empty, so delete previous digit
-    if (index > 0) {
-      codes[index - 1].value = '';
-      codes[index - 1].focus();
+    // Current input has a value
+    if (input.value !== '') {
+      input.value = '';
+      input.focus();
+      return;
     }
 
+    // Current input is empty, move to previous
+    codes[index - 1].value = '';
+    codes[index - 1].focus();
+
   });
+
 
 
  
