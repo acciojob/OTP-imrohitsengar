@@ -1,1 +1,19 @@
 /*  your css code here. If applicable */
+#verification_heading{
+	display:flex;
+	justify-content:center; 
+}
+#verification_subtext{
+	font-weight:100;
+	color:rgb(26, 26, 26);
+}
+.code-container{
+	display:flex;
+	justify-content:space-evenly;
+}
+.code{
+	height:200px;
+	width:100px;
+	font-size:100px;
+	padding:20px;
+}
